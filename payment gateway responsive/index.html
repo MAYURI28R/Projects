@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <title>Payment Gateway</title>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <form id="form" action="/php">
+
+            <div class="row">
+
+                <div class="col">
+
+                    <h3 class="title">billing address</h3>
+
+                    <div class="inputBox">
+                        <label for="username">Full Name :</label>
+                        <input type="text" id="username" spellcheck="false" placeholder="Enter Name"
+                            onkeyup="ValidateName()" required>
+                        <div class="error"></div>
+                    </div>
+                    <div class="inputBox">
+                        <label for="email">Email :</label>
+                        <input type="email" id="Input-email" placeholder="abc@.com" required>
+                        <div class="error"></div>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="password">Password :</label>
+                        <input id="password" type="password" placeholder="Strong Password">
+                        <div class="error"></div>
+                    </div>
+
+                    <div class="inputBox">
+                        <label>address :</label>
+                        <input type="text" placeholder="Enter Full Address" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label>city :</label>
+                        <input type="text" placeholder="City" required>
+                    </div>
+
+                    <div class="flex">
+                        <div class="inputBox">
+                            <label>state :</label>
+                            <input type="text" placeholder="india" required>
+                        </div>
+                        <div class="inputBox">
+                            <label>pin code :</label>
+                            <input type="text" placeholder="123456" required>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col">
+
+                    <h3 class="title">payment</h3>
+
+                    <div class="inputBox">
+                        <label>cards accepted :</label>
+                        <div class="flex">
+
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                            <i class="fa-brands fa-cc-discover"></i>
+                            <i class="fa-brands fa-cc-paypal"></i>
+                            <i class="fa-brands fa-cc-amex"></i>
+                        </div>
+                    </div>
+                    <div class="inputBox">
+                        <label>name on card :</label>
+                        <input type="text" placeholder="Full Name" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label>Renter-Password :</label>
+                        <input type="password" placeholder="Strong Password">
+                    </div>
+
+                    <div class="inputBox">
+                        <label>credit card number :</label>
+                        <input type="number" placeholder="1111-2222-3333-4444" required>
+                    </div>
+                    <div class="inputBox">
+                        <label>exp month :</label>
+                        <input type="text" placeholder="Month" required>
+                    </div>
+
+                    <div class="flex">
+                        <div class="inputBox">
+                            <label>exp year :</label>
+                            <input type="number" placeholder="2030" required>
+                        </div>
+                        <div class="inputBox">
+                            <label>CVV :</label>
+                            <input type="text" placeholder="234" required>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <input type="submit" value="proceed to checkout" class="submit-btn">
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        "use strict";
+
+        /* var Inname = document.getElementById("Input-name");
+         var Lname = document.getElementById("Label-name");
+         var Nerror = document.getElementById("Name-error");
+ 
+         var Lemail=document.getElementById("Label-email");
+         var Inemail=document.getElementById("Input-email");
+         var Eerror=document.getElementById("Email-error");
+ 
+         function ValidateName(){
+             Lname.style.bottom = "45px"
+         }
+ 
+         if(!Inemail.value.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)){
+             Eerror.innerHTML = "please enter a valid email";
+             return false;
+         }
+         */
+
+
+
+
+
+         
+
+        const form = document.getElementById('form');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            validateInputs();
+        });
+
+
+        const setError = (element, message) => {
+            const inputControl = element.parentElement;
+            const errorDisplay = inputControl.querySelector('.error');
+
+            errorDisplay.innerText = message;
+            inputControl.classList.add('error');
+            inputControl.classList.remove('success');
+
+        }
+        const setSuccess = element => {
+            const inputControl = element.parentElement;
+            const errorDisplay = inputControl.querySelector('.error');
+
+            errorDisplay.innerText = message;
+            inputControl.classList.add('success');
+            inputControl.classList.remove('error');
+        }
+
+        const isValidEmail = email => {
+            const re = /^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        const validateInputs = () => {
+            const usernameValue = username.trim();
+            const emailValue = email.value.trim();
+            const passwordValue = password.value.trim();
+        }
+
+        if (usernameValue === '') {
+            setError(username, 'Ussername is required');
+        }
+        else {
+            setSuccess(username);
+        }
+
+        if (emailValue === '') {
+            setError(email, 'Email is required');
+        } else if (!isValidEmail(emailValue)) {
+            setError(email, 'Provide a valid email address');
+        } else {
+            setSuccess(email);
+        }
+
+        if (passwordValue === '') {
+            setError(password, 'Mustprovide password');
+        } else if (passwordValue.length<8){
+            setError(password,'Pass must be at least 8 character');
+        }else{
+            setSuccess(password);
+        }
+
+    </script>
+
+</body>
+
+</html>
